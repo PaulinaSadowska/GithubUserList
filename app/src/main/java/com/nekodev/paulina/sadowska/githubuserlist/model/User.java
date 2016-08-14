@@ -4,6 +4,8 @@ import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Paulina Sadowska on 14.08.2016.
@@ -11,7 +13,12 @@ import com.bumptech.glide.Glide;
 
 public class User {
 
+
+    @SerializedName("login")
+    @Expose
     private String userName;
+    @SerializedName("avatar_url")
+    @Expose
     private String avatarUrl;
 
     public User(){

@@ -46,7 +46,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.Bindin
 
     }
 
-    public void setItems(List <User> users){
+    public void addUsers(List <User> users){
         this.mUsers = users;
         notifyDataSetChanged();
     }
