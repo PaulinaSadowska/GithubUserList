@@ -51,6 +51,11 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.Bindin
         notifyDataSetChanged();
     }
 
+    public void addUser(User user){
+        this.mUsers.add(user);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return mUsers.size();
