@@ -1,6 +1,5 @@
 package com.nekodev.paulina.sadowska.githubuserlist.data.remote;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
@@ -14,13 +13,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHelper {
 
-    private Gson gson = new GsonBuilder()
-            .create();
-
     public GitHubService newHackerNewsService() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GitHubService.ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 

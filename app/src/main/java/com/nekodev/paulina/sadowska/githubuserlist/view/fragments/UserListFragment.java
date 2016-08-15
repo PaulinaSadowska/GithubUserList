@@ -14,8 +14,6 @@ import com.nekodev.paulina.sadowska.githubuserlist.data.DataManager;
 import com.nekodev.paulina.sadowska.githubuserlist.model.User;
 import com.nekodev.paulina.sadowska.githubuserlist.view.adapters.UserListAdapter;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
@@ -40,16 +38,7 @@ public class UserListFragment extends Fragment {
         mUserListAdapter = new UserListAdapter(getActivity());
         mDataManager = new DataManager();
     }
-
-    private void populateWithDummyData(List<User> mUsers) {
-        String[] avatars = getResources().getStringArray(R.array.dummy_avatars);
-        String[] names = getResources().getStringArray(R.array.dummy_names);
-        for (int i = 0; i < avatars.length; i++) {
-            if(names[i] == null) return;
-            mUsers.add(new User(names[i], avatars[i]));
-        }
-    }
-
+    
     private void getUsers(){
         new CompositeSubscription().add(mDataManager.getUsers()
                 .observeOn(AndroidSchedulers.mainThread())
