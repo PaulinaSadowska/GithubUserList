@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import com.nekodev.paulina.sadowska.githubuserlist.GitHubUsersApplication;
 import com.nekodev.paulina.sadowska.githubuserlist.data.remote.GitHubService;
 import com.nekodev.paulina.sadowska.tests.injection.components.ApplicationTestComponent;
+import com.nekodev.paulina.sadowska.tests.injection.components.DaggerApplicationTestComponent;
 import com.nekodev.paulina.sadowska.tests.injection.module.ApplicationTestModule;
 import com.nekodev.paulina.sadowska.tests.util.TestDataManager;
 
