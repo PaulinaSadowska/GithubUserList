@@ -49,6 +49,7 @@ dependencies {
     final SUPPORT_LIBRARY_VERSION = '24.1.1'
     final RETROFIT_VERSION = '2.1.0'
     final DAGGER_VERSION = '2.5'
+    final MOCKITO_VERSION = '1.10.19'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -79,6 +80,15 @@ dependencies {
     compile "com.google.dagger:dagger:$DAGGER_VERSION"
     apt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     provided 'org.glassfish:javax.annotation:10.0-b28'
+
+    //Mockito
+    testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
+
+    //Roboelectric
+    testCompile('org.robolectric:robolectric:3.0') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
 
     testCompile 'junit:junit:4.12'
 }

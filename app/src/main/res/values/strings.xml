@@ -1,16 +1,4 @@
 <resources>
     <string name="app_name">GithubUserList</string>
     <string name="connection_problem">There was a problem while fetching data</string>
-
-    <string-array name="dummy_avatars">
-        <item>http://images.freeimages.com/images/previews/97d/cats-1343481.jpg</item>
-        <item>http://images.freeimages.com/images/previews/a06/cats-1343463.jpg</item>
-        <item>http://images.freeimages.com/images/previews/d96/cats-1343471.jpg</item>
-    </string-array>
-
-    <string-array name="dummy_names">
-        <item>Anna</item>
-        <item>Maria</item>
-        <item>Karolina</item>
-    </string-array>
 </resources>
