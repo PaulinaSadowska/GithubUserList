@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.nekodev.paulina.sadowska.githubuserlist.GitHubUsersApplication;
 import com.nekodev.paulina.sadowska.githubuserlist.R;
 import com.nekodev.paulina.sadowska.githubuserlist.data.DataManager;
 import com.nekodev.paulina.sadowska.githubuserlist.model.User;
@@ -36,9 +37,9 @@ public class UserListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserListAdapter = new UserListAdapter(getActivity());
-        mDataManager = new DataManager();
+        mDataManager = GitHubUsersApplication.get(getActivity()).getComponent().dataManager();
     }
-    
+
     private void getUsers(){
         new CompositeSubscription().add(mDataManager.getUsers()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,6 +51,7 @@ public class UserListFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Toast.makeText(getActivity(), R.string.connection_problem, Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
 
                     @Override
