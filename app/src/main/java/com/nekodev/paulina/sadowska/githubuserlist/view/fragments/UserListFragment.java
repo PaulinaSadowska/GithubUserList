@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.nekodev.paulina.sadowska.githubuserlist.R;
 import com.nekodev.paulina.sadowska.githubuserlist.data.DataManager;
@@ -17,6 +18,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Paulina Sadowska on 14.08.2016.
@@ -46,6 +50,26 @@ public class UserListFragment extends Fragment {
         }
     }
 
+    private void getUsers(){
+        new CompositeSubscription().add(mDataManager.getUsers()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(mDataManager.getScheduler())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() { }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), R.string.connection_problem, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        mUserListAdapter.addUser(user);
+                    }
+                }));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_list, container, false);
@@ -58,14 +82,6 @@ public class UserListFragment extends Fragment {
         mUserList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mUserList.setHasFixedSize(true);
         mUserList.setAdapter(mUserListAdapter);
-        mDataManager.setDataReadyListener(new DataManager.DataReadyListener() {
-            @Override
-            public void dataReady(List<User> users) {
-                if(mUserListAdapter!=null){
-                    mUserListAdapter.addUsers(users);
-                }
-            }
-        });
-        mDataManager.loadData();
+        getUsers();
     }
 }
