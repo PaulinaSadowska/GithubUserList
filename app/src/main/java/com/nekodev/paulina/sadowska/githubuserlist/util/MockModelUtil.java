@@ -1,6 +1,7 @@
 package com.nekodev.paulina.sadowska.githubuserlist.util;
 
 import com.nekodev.paulina.sadowska.githubuserlist.model.User;
+import com.nekodev.paulina.sadowska.githubuserlist.model.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,5 +28,9 @@ public class MockModelUtil {
             users.add(createMockUser("Ana " + i));
         }
         return users;
+    }
+
+    public static UserDetails createMockUserDetails() {
+        return new UserDetails("Ana", DUMMY_AVATAR_URL, "Anna Karenina", "My not so short story began...");
     }
 }
