@@ -31,12 +31,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.Bindin
 
     @Override
     public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        UserListItemBinding postBinding = DataBindingUtil.inflate(
+        UserListItemBinding userBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.user_list_item,
                 parent,
                 false);
-        return new BindingHolder(postBinding);
+        return new BindingHolder(userBinding);
     }
 
     @Override

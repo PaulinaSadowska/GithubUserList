@@ -1,10 +1,12 @@
 package com.nekodev.paulina.sadowska.githubuserlist.data.remote;
 
 import com.nekodev.paulina.sadowska.githubuserlist.model.User;
+import com.nekodev.paulina.sadowska.githubuserlist.model.UserDetails;
 
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -17,4 +19,7 @@ public interface GitHubService {
 
     @GET("users")
     Observable<List<User>> getUsers();
+
+    @GET("users/{login}")
+    Observable<UserDetails> getUserDetails(@Path("login") String user);
 }

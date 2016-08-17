@@ -8,6 +8,7 @@ import com.nekodev.paulina.sadowska.githubuserlist.data.remote.GitHubService;
 import com.nekodev.paulina.sadowska.githubuserlist.injection.components.DaggerDataManagerComponent;
 import com.nekodev.paulina.sadowska.githubuserlist.injection.module.DataManagerModule;
 import com.nekodev.paulina.sadowska.githubuserlist.model.User;
+import com.nekodev.paulina.sadowska.githubuserlist.model.UserDetails;
 
 import javax.inject.Inject;
 
@@ -48,6 +49,10 @@ public class DataManager  {
     public Observable<User> getUsers(){
         return mGitHubService.getUsers()
                 .flatMap(Observable::from);
+    }
+
+    public Observable<UserDetails> getUserDetails(String login){
+        return mGitHubService.getUserDetails(login);
     }
 
     public Scheduler getScheduler() {
