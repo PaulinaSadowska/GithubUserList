@@ -7,11 +7,13 @@ import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Paulina Sadowska on 14.08.2016.
  */
 
-public class User {
+public class User implements Serializable {
 
 
     @SerializedName("login")

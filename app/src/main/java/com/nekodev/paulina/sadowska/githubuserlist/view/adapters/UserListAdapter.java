@@ -6,13 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.nekodev.paulina.sadowska.githubuserlist.R;
 import com.nekodev.paulina.sadowska.githubuserlist.databinding.UserListItemBinding;
 import com.nekodev.paulina.sadowska.githubuserlist.model.User;
 import com.nekodev.paulina.sadowska.githubuserlist.viewmodel.UserViewModel;
-import com.nekodev.paulina.sadowska.githubuserlist.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Paulina Sadowska on 14.08.2016.
@@ -20,7 +19,8 @@ import java.util.List;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.BindingHolder> {
 
-    private List<User> mUsers;
+
+    private ArrayList<User> mUsers;
     private Context mContext;
 
     public UserListAdapter(Context mContext){
@@ -46,7 +46,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.Bindin
 
     }
 
-    public void addUsers(List <User> users){
+    public void addUsers(ArrayList<User> users){
         this.mUsers = users;
         notifyDataSetChanged();
     }
@@ -59,6 +59,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.Bindin
     @Override
     public int getItemCount() {
         return mUsers.size();
+    }
+
+    public ArrayList<User> getUsers() {
+        return mUsers;
     }
 
     public static class BindingHolder extends RecyclerView.ViewHolder {

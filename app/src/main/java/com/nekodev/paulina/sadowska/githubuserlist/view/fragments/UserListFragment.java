@@ -15,6 +15,9 @@ import com.nekodev.paulina.sadowska.githubuserlist.data.DataManager;
 import com.nekodev.paulina.sadowska.githubuserlist.model.User;
 import com.nekodev.paulina.sadowska.githubuserlist.view.adapters.UserListAdapter;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
@@ -26,6 +29,8 @@ import rx.subscriptions.CompositeSubscription;
  */
 
 public class UserListFragment extends Fragment {
+
+    private static final String SAVED_USERS_KEY = "UsersKey";
 
     @BindView(R.id.recycler_users)
     RecyclerView mUserList;
@@ -41,11 +46,22 @@ public class UserListFragment extends Fragment {
         mDataManager = GitHubUsersApplication.get(getActivity()).getComponent().dataManager();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(SAVED_USERS_KEY, mUserListAdapter.getUsers());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_list, container, false);
         ButterKnife.bind(this, view);
+        if(savedInstanceState!=null && savedInstanceState.containsKey(SAVED_USERS_KEY)){
+            Serializable users = savedInstanceState.getSerializable(SAVED_USERS_KEY);
+            if(users instanceof ArrayList) {
+                mUserListAdapter.addUsers((ArrayList)users);
+            }
+        }
         setupRecyclerView();
         return view;
     }
@@ -60,7 +76,9 @@ public class UserListFragment extends Fragment {
         mUserList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mUserList.setHasFixedSize(true);
         mUserList.setAdapter(mUserListAdapter);
-        getUsers();
+        if(mUserListAdapter.getItemCount() == 0) {
+            getUsers();
+        }
     }
 
     private void getUsers(){

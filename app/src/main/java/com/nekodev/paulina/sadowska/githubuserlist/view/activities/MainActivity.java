@@ -16,7 +16,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actiity_main);
-        addUserListFragment();
+        if ((findViewById(R.id.content_frame) != null && savedInstanceState == null)
+                || findViewById(R.id.content_frame) == null)
+        {
+            addUserListFragment();
+        }
     }
 
     private void addUserListFragment() {
