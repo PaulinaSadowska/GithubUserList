@@ -32,6 +32,7 @@ public class UserListFragment extends Fragment {
 
     private UserListAdapter mUserListAdapter;
     private DataManager mDataManager;
+    private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,30 @@ public class UserListFragment extends Fragment {
         mDataManager = GitHubUsersApplication.get(getActivity()).getComponent().dataManager();
     }
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+        ButterKnife.bind(this, view);
+        setupRecyclerView();
+        return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeSubscription.unsubscribe();
+    }
+
+    private void setupRecyclerView() {
+        mUserList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mUserList.setHasFixedSize(true);
+        mUserList.setAdapter(mUserListAdapter);
+        getUsers();
+    }
+
     private void getUsers(){
-        new CompositeSubscription().add(mDataManager.getUsers()
+        mCompositeSubscription.add(mDataManager.getUsers()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Subscriber<User>() {
@@ -59,20 +82,5 @@ public class UserListFragment extends Fragment {
                         mUserListAdapter.addUser(user);
                     }
                 }));
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
-        ButterKnife.bind(this, view);
-        setupRecyclerView();
-        return view;
-    }
-
-    private void setupRecyclerView() {
-        mUserList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mUserList.setHasFixedSize(true);
-        mUserList.setAdapter(mUserListAdapter);
-        getUsers();
     }
 }
