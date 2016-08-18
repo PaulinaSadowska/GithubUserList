@@ -43,7 +43,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.Bindin
     public void onBindViewHolder(BindingHolder holder, int position) {
         UserListItemBinding postBinding = holder.binding;
         postBinding.setViewModel(new UserViewModel(mContext, mUsers.get(position)));
-
     }
 
     public void addUsers(ArrayList<User> users){

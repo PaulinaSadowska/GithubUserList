@@ -13,7 +13,7 @@ import java.util.List;
 public class MockModelUtil {
 
     private static final String DUMMY_AVATAR_URL = "http://images.freeimages.com/images/previews/97d/cats-1343481.jpg";
-    public static final String DUMMY_LOGIN = "PaulinaSadowska";
+    public static final String DUMMY_LOGIN = "PaulinaaaaSadowska";
 
     public static User createMockUser() {
         return createMockUser(DUMMY_LOGIN);

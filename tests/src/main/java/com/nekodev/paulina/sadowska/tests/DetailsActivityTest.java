@@ -1,5 +1,8 @@
 package com.nekodev.paulina.sadowska.tests;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -32,6 +35,7 @@ import static org.mockito.Mockito.when;
 public class DetailsActivityTest {
 
     private UserDetails mUserDetails;
+    private Intent mIntent;
 
     @Rule
     public final ActivityTestRule<DetailsActivity> details =
@@ -44,6 +48,10 @@ public class DetailsActivityTest {
     public void setUp(){
         mUserDetails = MockModelUtil.createMockUserDetails();
         stubMockUser(mUserDetails);
+        Context targetContext = InstrumentationRegistry.getInstrumentation()
+                .getTargetContext();
+        mIntent = new Intent(targetContext, DetailsActivity.class);
+        mIntent.putExtra(DetailsActivity.EXTRA_LOGIN, mUserDetails.getLogin());
     }
 
     @Test
@@ -54,19 +62,19 @@ public class DetailsActivityTest {
 
     @Test
     public void testDetailsActivityDisplaysLogin() {
-        details.launchActivity(null);
+        details.launchActivity(mIntent);
         checkDisplays(mUserDetails.getLogin());
     }
 
     @Test
     public void testDetailsActivityDisplaysName() {
-        details.launchActivity(null);
+        details.launchActivity(mIntent);
         checkDisplays(mUserDetails.getName());
     }
 
     @Test
     public void testDetailsActivityDisplaysBio() {
-        details.launchActivity(null);
+        details.launchActivity(mIntent);
         checkDisplays(mUserDetails.getBio());
     }
 

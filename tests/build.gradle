@@ -2,7 +2,7 @@ apply plugin: 'com.android.test'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-        compileSdkVersion 23
+        compileSdkVersion 24
         buildToolsVersion "24.0.1"
 
         defaultConfig {
@@ -35,6 +35,7 @@ dependencies {
 
     compile 'junit:junit:4.12'
     compile "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
+    compile "com.android.support.test.espresso:espresso-intents:$ESPRESSO_VERSION"
     compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
     compile "org.mockito:mockito-core:$MOCKITO_VERSION"
     compile 'com.android.support.test:runner:0.5'

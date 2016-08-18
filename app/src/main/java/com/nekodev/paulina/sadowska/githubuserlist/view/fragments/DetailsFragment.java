@@ -2,8 +2,8 @@ package com.nekodev.paulina.sadowska.githubuserlist.view.fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,7 @@ import com.nekodev.paulina.sadowska.githubuserlist.R;
 import com.nekodev.paulina.sadowska.githubuserlist.data.DataManager;
 import com.nekodev.paulina.sadowska.githubuserlist.databinding.FragmentUserDetailsBinding;
 import com.nekodev.paulina.sadowska.githubuserlist.model.UserDetails;
-import com.nekodev.paulina.sadowska.githubuserlist.util.MockModelUtil;
+import com.nekodev.paulina.sadowska.githubuserlist.view.activities.DetailsActivity;
 import com.nekodev.paulina.sadowska.githubuserlist.viewmodel.UserDetailsViewModel;
 
 import rx.Subscriber;
@@ -32,7 +32,7 @@ public class DetailsFragment extends Fragment {
     private FragmentUserDetailsBinding mUserDetailsBinding;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataManager = GitHubUsersApplication.get(getActivity()).getComponent().dataManager();
     }
@@ -44,7 +44,12 @@ public class DetailsFragment extends Fragment {
                 R.layout.fragment_user_details,
                 container,
                 false);
-        getUserDetails();
+        if(getArguments() != null && getArguments().getString(DetailsActivity.EXTRA_LOGIN) != null) {
+            getUserDetails(getArguments().getString(DetailsActivity.EXTRA_LOGIN));
+        }
+        else{
+           Log.e(DetailsFragment.class.getName(), "No login provided");
+        }
         return mUserDetailsBinding.getRoot();
     }
 
@@ -54,8 +59,8 @@ public class DetailsFragment extends Fragment {
         mCompositeSubscription.unsubscribe();
     }
 
-    private void getUserDetails(){
-        mCompositeSubscription.add(mDataManager.getUserDetails(MockModelUtil.DUMMY_LOGIN) //TODO - change
+    private void getUserDetails(String login){
+        mCompositeSubscription.add(mDataManager.getUserDetails(login)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Subscriber<UserDetails>() {

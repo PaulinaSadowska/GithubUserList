@@ -1,12 +1,14 @@
 package com.nekodev.paulina.sadowska.tests;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.nekodev.paulina.sadowska.githubuserlist.R;
 import com.nekodev.paulina.sadowska.githubuserlist.model.User;
 import com.nekodev.paulina.sadowska.githubuserlist.util.MockModelUtil;
-import com.nekodev.paulina.sadowska.githubuserlist.R;
+import com.nekodev.paulina.sadowska.githubuserlist.view.activities.DetailsActivity;
 import com.nekodev.paulina.sadowska.githubuserlist.view.activities.MainActivity;
 import com.nekodev.paulina.sadowska.tests.injection.TestComponentRule;
 
@@ -14,12 +16,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -47,6 +53,25 @@ public class MainActivityTest {
         checkUsersDisplayOnRecyclerView(userList);
     }
 
+    @Test
+    public void testUserDetailsLaunches() {
+        Intents.init();
+        User user= MockModelUtil.createMockUser();
+        stubMockUser(user);
+        main.launchActivity(null);
+        onView(withText(user.getUserName()))
+                    .perform(click());
+        intended(hasComponent(DetailsActivity.class.getName()));
+        Intents.release();
+    }
+
+
+    private void stubMockUser(User user) {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(user);
+        stubMockUsers(users);
+    }
+
     private void stubMockUsers(List<User> users) {
             when(component.getMockGitHubService().getUsers())
                     .thenReturn(Observable.just(users));
@@ -59,6 +84,7 @@ public class MainActivityTest {
             checkUserDisplays(usersToCheck.get(i));
         }
     }
+
 
     private void checkUserDisplays(User user) {
         onView(withText(user.getUserName()))
